@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 const register = async (req, res) => {
   try {
     //get data
-    const { fullname, email, password, phoneNumber, role } = req.body;
+    const { fullname, email, phoneNumber, password, role } = req.body;
 
     if (!fullname || !email || !password || !phoneNumber || !role) {
       return res.status(400).json({
@@ -124,7 +124,7 @@ const login = async (req, res) => {
       })
       .json({
         success: true,
-        message: `Welcome back ${(user, fullname)}`,
+        message: `Welcome back ${user.fullname}`,
       });
   } catch (error) {
     console.log(error);
@@ -153,20 +153,14 @@ const updateProfile = async (req, res) => {
     //get data
     const { fullname, email, phoneNumber, bio, skills } = req.body;
 
-    if (!fullname || !email || !phoneNumber || !bio || !skills) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required",
-      });
-    }
-
     //skills in string so convert it into array
-    const skillsArray = skills.split(",");
+    let skillsArray;
+    if (skills) skillsArray = skills.split(",");
 
     const userId = req.id; //middleware authentication
 
     //check user login or not
-    let user = await User.findById({ userId });
+    let user = await User.findById(userId);
 
     if (!user) {
       return res.status(400).json({
@@ -177,11 +171,11 @@ const updateProfile = async (req, res) => {
 
     //update fields
 
-    (user.fullname = fullname),
-      (user.email = email),
-      (user.phoneNumber = phoneNumber),
-      (user.bio = bio),
-      (user.skills = skills);
+    if (fullname) user.fullname = fullname;
+    if (email) user.email = email;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
+    if (bio) user.profile.bio = bio;
+    if (skills) user.profile.skills = skillsArray;
 
     //save user in database
 

@@ -15,7 +15,7 @@ app.use(cookieParser());
 //cors policy
 
 const corsOption = {
-  origin: "http//localhost:5173",
+  origin: "http://localhost:5173",
   credentials: true,
 };
 
@@ -25,7 +25,7 @@ const port = process.env.PORT || 3000;
 
 //api endpoints
 
-app.use("api/v1/user", userRouter);
+app.use("/api/v1/user", userRouter);
 
 app.listen(port, () => {
   //db call
