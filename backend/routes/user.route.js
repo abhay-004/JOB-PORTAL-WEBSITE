@@ -5,6 +5,7 @@ import {
   register,
   updateProfile,
 } from "../controllers/user.controller.js";
+import isAuthenticated from "../middlewares/auth.js";
 
 const userRouter = express.Router();
 
@@ -12,7 +13,7 @@ const userRouter = express.Router();
 
 userRouter.post("/register", register);
 userRouter.post("/login", login);
-userRouter.post("/profile/update", updateProfile);
+userRouter.post("/profile/update", isAuthenticated, updateProfile);
 userRouter.get("/logout", logout);
 
 export default userRouter;
