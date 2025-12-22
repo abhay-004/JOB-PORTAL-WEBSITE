@@ -11,7 +11,7 @@ const applicationRouter = express.Router();
 
 //routes
 
-applicationRouter.post("/apply/:id", isAuthenticated, applyJob);
+applicationRouter.get("/apply/:id", isAuthenticated, applyJob);
 applicationRouter.get("/get", isAuthenticated, getAppliedJob);
 applicationRouter.get("/:id/applicants", isAuthenticated, getApplicants);
 applicationRouter.post("/status/:id/update", isAuthenticated, updateStatus);

@@ -45,10 +45,10 @@ const jobSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    applications: {
+    applications:[ {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Application",
-    },
+    }],
   },
 
   { timestamps: true }
