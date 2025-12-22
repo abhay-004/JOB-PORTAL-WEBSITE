@@ -138,4 +138,4 @@ const getAdminJobs = async (req, res) => {
   }
 };
 
-export { jobType, getAllJobs,jobById,getAdminJobs };
+export { postJob, getAllJobs,jobById,getAdminJobs };
