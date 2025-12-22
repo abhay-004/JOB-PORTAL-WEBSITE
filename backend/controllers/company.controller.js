@@ -52,6 +52,11 @@ const getCompany = async (req, res) => {
         message: "Company not found",
       });
     }
+
+    return res.status(200).json({
+      success: true,
+      companies,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -62,16 +67,16 @@ const getCompany = async (req, res) => {
 const getCompanyById = async (req, res) => {
   try {
     const companyId = req.params.id;
-    const company = await Company.findById({ companyId });
+    const company = await Company.findById(companyId);
 
-    if (!companyId) {
+    if (!company) {
       return res.status(404).json({
         success: false,
         message: "Company not found",
       });
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       company,
     });
@@ -104,7 +109,7 @@ const updateCompany = async (req, res) => {
       });
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       company,
       message: "Company information updated successfully",

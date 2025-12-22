@@ -3,9 +3,9 @@ import {
   getCompany,
   getCompanyById,
   registerCompany,
-  updateCompany,
-} from "../controllers/company.controller";
-import isAuthenticated from "../middlewares/auth";
+  updateCompany, 
+} from "../controllers/company.controller.js";
+import isAuthenticated from "../middlewares/auth.js";
 
 const companyRouter = express.Router();
 
@@ -14,6 +14,6 @@ const companyRouter = express.Router();
 companyRouter.post("/register", isAuthenticated, registerCompany);
 companyRouter.get("/get", isAuthenticated, getCompany);
 companyRouter.get("/get/:id", isAuthenticated, getCompanyById);
-companyRouter.post("/update/:id", isAuthenticated, updateCompany);
+companyRouter.put("/update/:id", isAuthenticated, updateCompany);
 
 export default companyRouter;
