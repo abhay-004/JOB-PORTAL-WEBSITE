@@ -9,7 +9,7 @@ const jobRouter = express.Router()
 //routes
 
 jobRouter.post("/post",isAuthenticated,postJob)
-jobRouter.get("/get",isAuthenticated,getAllJobs)
+jobRouter.get("/get",getAllJobs)
 jobRouter.get("/get/:id",isAuthenticated,jobById)
 jobRouter.get("/getadminjobs",isAuthenticated,getAdminJobs)
 

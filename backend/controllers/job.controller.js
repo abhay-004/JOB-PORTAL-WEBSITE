@@ -1,6 +1,6 @@
 //Post Job for admin
 
-import { Job } from "../models/job.model";
+import { Job } from "../models/job.model.js";
 
 const postJob = async (req, res) => {
   try {
@@ -35,18 +35,36 @@ const postJob = async (req, res) => {
       });
     }
 
+    // Validate position is a valid number
+    const positionNumber = Number(position);
+    if (isNaN(positionNumber) || positionNumber <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Position must be a valid positive number",
+      });
+    }
+
+    // Validate company exists
+    const company = await Company.findById(companyId);
+    if (!company) {
+      return res.status(404).json({
+        success: false,
+        message: "Company not found",
+      });
+    }
+
     //create job
 
     const job = await Job.create({
       title,
       description,
       requirements: requirements.split(","),
-      salary: Number(salary),
+      salary,
       location,
       jobType,
       experience,
-      position,
-      companyId,
+      position: positionNumber,
+      company: companyId,
       created_by: userId,
     });
 
@@ -74,8 +92,10 @@ const getAllJobs = async (req, res) => {
       ],
     };
 
-    //find jobs
-    const jobs = await Job.find(query);
+    //find jobs // use populate to get info without populate we only get id not info who created
+    const jobs = await Job.find(query)
+      .populate({ path: "company" })
+      .populate({ path: "created_by" });
 
     if (!jobs) {
       return res.status(404).json({
@@ -84,7 +104,7 @@ const getAllJobs = async (req, res) => {
       });
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       jobs,
     });
@@ -98,16 +118,18 @@ const getAllJobs = async (req, res) => {
 const jobById = async (req, res) => {
   try {
     const jobId = req.params.id;
-    const job = await Job.findById(jobId);
+    const job = await Job.findById(jobId)
+      .populate({ path: "company" })
+      .populate({ path: "created_by" });
 
     if (!job) {
       return res.status(404).json({
-        success: true,
+        success: false,
         message: "Job not found",
       });
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       job,
     });
@@ -121,15 +143,17 @@ const jobById = async (req, res) => {
 const getAdminJobs = async (req, res) => {
   try {
     const adminId = req.id;
-    const jobs = await Job.find({ created_by: adminId });
+    const jobs = await Job.find({ created_by: adminId })
+      .populate({ path: "company" })
+      .populate({ path: "created_by" });
     if (!jobs) {
       return res.status(404).json({
-        success: true,
+        success: false,
         message: "Job not found",
       });
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       jobs,
     });
@@ -138,4 +162,4 @@ const getAdminJobs = async (req, res) => {
   }
 };
 
-export { postJob, getAllJobs,jobById,getAdminJobs };
+export { postJob, getAllJobs, jobById, getAdminJobs };
