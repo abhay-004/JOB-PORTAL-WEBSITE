@@ -5,7 +5,7 @@ import {
   getApplicants,
   getAppliedJob,
   updateStatus,
-} from "../controllers/application.controller";
+} from "../controllers/application.controller.js";
 
 const applicationRouter = express.Router();
 
