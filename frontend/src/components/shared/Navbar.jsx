@@ -1,0 +1,79 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Avatar, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
+import { LogOut, User2 } from "lucide-react";
+const Navbar = () => {
+  const user = false;
+  return (
+    <div className="bg-white">
+      <div className="flex items-center justify-between mx-auto max-w-7xl">
+        <div>
+          <h1 className="text-2xl font-bold">
+            Job <span className="text-[#f83002]">Portal</span>
+          </h1>
+        </div>
+
+        {/* Right side  */}
+
+        <div className="flex items-center gap-12">
+          <ul className="flex font-medium items-center gap-5">
+            <li>Home</li>
+            <li>Job</li>
+            <li>Browse</li>
+          </ul>
+
+          {!user ? (
+            <div className="flex items-center gap-2 m-2">
+              <Button variant="outline" className="cursor-pointer">
+                Login
+              </Button>
+              <Button className="bg-[#6A38C2] hover:bg-[#5b30a6] cursor-pointer">
+                Signup
+              </Button>
+            </div>
+          ) : (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Avatar className="cursor-pointer">
+                  <AvatarImage src="https://github.com/shadcn.png"></AvatarImage>
+                </Avatar>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <div className="flex gap-4 space-y-2">
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage src="https://github.com/shadcn.png"></AvatarImage>
+                  </Avatar>
+                  <div>
+                    <h4 className="font-medium">Abhay</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Lorem ipsum dolor sit.
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <Button
+                    variant="link"
+                    className="border-none outline-none cursor-pointer"
+                  >
+                    <User2 /> View Profile
+                  </Button>
+                  <Button
+                    variant="link"
+                    className="border-none outline-none cursor-pointer"
+                  >
+                    <LogOut /> Logout
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;
