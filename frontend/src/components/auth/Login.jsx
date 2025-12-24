@@ -110,7 +110,7 @@ const Login = () => {
               Please wait...
             </Button>
           ) : (
-            <Button type="submit" className="w-full my-4">
+            <Button type="submit" className="w-full my-4 cursor-pointer">
               Login
             </Button>
           )}
