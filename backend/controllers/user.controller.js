@@ -124,6 +124,7 @@ const login = async (req, res) => {
       })
       .json({
         success: true,
+        user,
         message: `Welcome back ${user.fullname}`,
       });
   } catch (error) {
