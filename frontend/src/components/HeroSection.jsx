@@ -14,8 +14,8 @@ const HeroSection = () => {
           <span className="text-[#6a38c2]">Dream Jobs</span>
         </h1>
         <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae
-          aperiam, nisi quas voluptates laudantium maiores.
+          Stop scrolling. Start earning. Jobs that actually match your skills
+          and vibe.
         </p>
         <div className="flex w-[40%] shadow-lg border border-gray-200 pl-3 rounded-full items-center gap-4 mx-auto">
           <input
