@@ -72,7 +72,7 @@ const Navbar = () => {
                     variant="link"
                     className="border-none outline-none cursor-pointer"
                   >
-                    <User2 /> View Profile
+                    <User2 /> <Link to={"/profile"}>View Profile</Link>
                   </Button>
                   <Button
                     variant="link"
