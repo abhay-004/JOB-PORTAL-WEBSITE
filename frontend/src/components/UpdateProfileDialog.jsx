@@ -26,7 +26,11 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     email: user?.email || "",
     phoneNumber: user?.phoneNumber || "",
     bio: user?.profile?.bio || "",
-    skills: user?.profile?.skills?.join(", ") || "",
+    // ✅ CLEAN skills when loading
+    skills:
+      user?.profile?.skills
+        ?.map((skill) => skill.replace(/"/g, ""))
+        .join(", ") || "",
     file: null,
   });
 
@@ -41,7 +45,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setLoading(true); // ✅ START LOADING
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("fullname", input.fullname);
@@ -49,11 +53,13 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("bio", input.bio);
 
+    // ✅ CLEAN + SPLIT skills safely
     const skillsArray = input.skills
       .split(",")
-      .map((skill) => skill.trim())
+      .map((skill) => skill.replace(/"/g, "").trim())
       .filter(Boolean);
 
+    // ✅ KEEP stringify (backend-compatible)
     formData.append("skills", JSON.stringify(skillsArray));
 
     if (input.file) {
@@ -73,13 +79,12 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
       if (res.data.success) {
         dispatch(setUser(res.data.user));
         toast.success(res.data.message);
-        console.log(res);
         setOpen(false);
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
     } finally {
-      setLoading(false); // ✅ STOP LOADING
+      setLoading(false);
     }
   };
 

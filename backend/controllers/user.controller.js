@@ -151,16 +151,10 @@ const logout = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    //get data
     const { fullname, email, phoneNumber, bio, skills } = req.body;
 
-    //skills in string so convert it into array
-    let skillsArray;
-    if (skills) skillsArray = skills.split(",");
+    const userId = req.id; // middleware authentication
 
-    const userId = req.id; //middleware authentication
-
-    //check user login or not
     let user = await User.findById(userId);
 
     if (!user) {
@@ -170,19 +164,20 @@ const updateProfile = async (req, res) => {
       });
     }
 
-    //update fields
+    // ✅ FIXED skills parsing
+    let skillsArray;
+    if (skills) {
+      skillsArray = Array.isArray(skills) ? skills : JSON.parse(skills);
+    }
 
+    // update fields
     if (fullname) user.fullname = fullname;
     if (email) user.email = email;
     if (phoneNumber) user.phoneNumber = phoneNumber;
     if (bio) user.profile.bio = bio;
-    if (skills) user.profile.skills = skillsArray;
-
-    //save user in database
+    if (skillsArray) user.profile.skills = skillsArray;
 
     await user.save();
-
-    //user info
 
     user = {
       _id: user._id,
