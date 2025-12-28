@@ -1,6 +1,8 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 //Register controller for user
 
@@ -153,6 +155,14 @@ const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
 
+    const file = req.file;
+    let cloudResponse;
+    if (file) {
+      const fileUri = getDataUri(file);
+      //cloudinary
+      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    }
+
     const userId = req.id; // middleware authentication
 
     let user = await User.findById(userId);
@@ -176,6 +186,12 @@ const updateProfile = async (req, res) => {
     if (phoneNumber) user.phoneNumber = phoneNumber;
     if (bio) user.profile.bio = bio;
     if (skillsArray) user.profile.skills = skillsArray;
+
+    //resume
+    if (cloudResponse) {
+      user.profile.resume = cloudResponse.secure_url;
+      user.profile.resumeOriginalName = file.originalname;
+    }
 
     await user.save();
 
