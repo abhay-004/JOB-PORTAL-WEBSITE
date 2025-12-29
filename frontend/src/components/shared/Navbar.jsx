@@ -86,7 +86,7 @@ const Navbar = () => {
                   <div>
                     <h4 className="font-medium">Abhay</h4>
                     <p className="text-sm text-muted-foreground">
-                      Lorem ipsum dolor sit.
+                      {user?.profile?.bio}
                     </p>
                   </div>
                 </div>
