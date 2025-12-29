@@ -18,6 +18,10 @@ const register = async (req, res) => {
       });
     }
 
+    const file = req.file;
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
     //check already exist or not
 
     const user = await User.findOne({ email });
@@ -40,6 +44,9 @@ const register = async (req, res) => {
       password: hashPassword,
       phoneNumber,
       role,
+      profile: {
+        profilePhoto: cloudResponse.secure_url,
+      },
     });
 
     //send response

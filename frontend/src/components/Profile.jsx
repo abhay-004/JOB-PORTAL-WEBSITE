@@ -20,7 +20,7 @@ const Profile = () => {
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-4">
             <Avatar className={"w-24 h-24"}>
-              <AvatarImage src="https://imgs.search.brave.com/CU07Rj_DG26UH49RAQB93d0qf0dTvkraUQ_7df5Oruc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNDIv/MTY1LzgxNi9zbWFs/bC9nb29nbGUtbG9n/by10cmFuc3BhcmVu/dC1mcmVlLXBuZy5w/bmc" />
+              <AvatarImage src={user?.profile?.profilePhoto} />
             </Avatar>
             <div>
               <h1 className="font-medium text-lg">{user?.fullname}</h1>
