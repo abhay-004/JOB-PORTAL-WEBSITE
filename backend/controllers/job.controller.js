@@ -94,11 +94,11 @@ const getAllJobs = async (req, res) => {
     };
 
     //find jobs // use populate to get info without populate we only get id not info who created
-    const jobs = await Job.find(query)
-      .populate({ path: "company" })
-      .populate({ path: "created_by" });
+    const populatedJob = await Job.findById(job._id)
+      .populate("company")
+      .populate("created_by");
 
-    if (!jobs) {
+    if (populatedJob.length === 0) {
       return res.status(404).json({
         success: false,
         message: "Jobs not found",
@@ -107,7 +107,7 @@ const getAllJobs = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      jobs,
+      job: populatedJob,
     });
   } catch (error) {
     console.log(error);
